@@ -1,17 +1,17 @@
-.list-item-btn{
-    margin: 0.5em;
-    margin-right: 1em;
-    box-sizing: border-box;
+.list-item-btn {
+  margin: 0.5em;
+  margin-right: 1em;
+  box-sizing: border-box;
 }
 
-.list-item-btn p{
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
+.list-item-btn p {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
-.add-btn{
-    margin: 2em 0;
+.add-btn {
+  margin: 2em 0;
 }
