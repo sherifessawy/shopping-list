@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, ListGroup, ListGroupItem, Container } from "reactstrap";
 import { v1 as uuid } from "uuid";
+import axios from "axios";
 
 function ShoppingList() {
-  const [shoppingItems, setShoppingItems] = useState([
-    { name: "eggs", id: uuid() },
-    { name: "milk", id: uuid() },
-  ]);
+  const [shoppingItems, setShoppingItems] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/items").then((res) => {
+      setShoppingItems(res.data);
+    });
+  }, []);
 
   function addItem() {
     const name = prompt("Enter Item");
