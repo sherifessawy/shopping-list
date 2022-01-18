@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Button, ListGroup, ListGroupItem, Container } from "reactstrap";
-import { v1 as uuid } from "uuid";
 import axios from "axios";
 
 function ShoppingList() {
   const [shoppingItems, setShoppingItems] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/items").then((res) => {
+    axios.get("/api/items").then((res) => {
       setShoppingItems(res.data);
     });
   }, []);
@@ -15,8 +14,19 @@ function ShoppingList() {
   function addItem() {
     const name = prompt("Enter Item");
     if (name) {
-      setShoppingItems((prev) => [...prev, { name, id: uuid() }]);
+      axios.post("/api/items", { name }).then((res) => {
+        setShoppingItems((prev) => [
+          { name: res.data.name, _id: res.data._id },
+          ...prev,
+        ]);
+      });
     }
+  }
+
+  function deleteItem(id) {
+    axios.delete(`/api/items/${id}`).then((res) => {
+      setShoppingItems((prev) => prev.filter((item) => item._id !== id));
+    });
   }
 
   return (
@@ -25,18 +35,14 @@ function ShoppingList() {
         Add item
       </Button>
       <ListGroup>
-        {shoppingItems.map(({ id, name }) => (
-          <ListGroupItem key={id}>
+        {shoppingItems.map(({ _id, name }) => (
+          <ListGroupItem key={_id}>
             <Button
               color="primary"
               className="list-item-btn"
               color="danger"
               size="sm"
-              onClick={() =>
-                setShoppingItems((prev) =>
-                  prev.filter((item) => item.id !== id)
-                )
-              }
+              onClick={() => deleteItem(_id)}
             >
               <p>&times;</p>
             </Button>
